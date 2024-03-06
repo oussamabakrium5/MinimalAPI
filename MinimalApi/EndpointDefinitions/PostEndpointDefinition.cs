@@ -4,6 +4,7 @@ using Domain.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using MinimalApi.Abstractions;
+using MinimalApi.Filters;
 
 namespace MinimalApi.EndpointDefinitions
 {
@@ -17,9 +18,11 @@ namespace MinimalApi.EndpointDefinitions
 			//.WithName("GetPostById"); is a metadata information
 			posts.MapGet("/{id}", GetPostById).
 				WithName("GetPostById");
-			posts.MapPost("/", CreatePost);
+			posts.MapPost("/", CreatePost)
+				.AddEndpointFilter<PostValidationFilter>();
 			posts.MapGet("/", GetAllPosts);
-			posts.MapPut("/{id}", UpdatePost);
+			posts.MapPut("/{id}", UpdatePost)
+				.AddEndpointFilter<PostValidationFilter>();
 			posts.MapDelete("/{id}", DeletePost);
 		}
 
